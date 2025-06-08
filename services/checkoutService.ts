@@ -12,22 +12,22 @@ export const processCheckout = (
       // Simulate random success/failure (e.g., 80% success rate)
       const isSuccess = Math.random() < 0.8;
 
-      if (isSuccess) {
-        const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
-        const timestamp = new Date().toISOString();
+      const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+      const timestamp = new Date().toISOString();
+      const orderLogEntry: OrderLogEntry = {
+        orderId,
+        userEmail,
+        items: cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        totalAmount: cartTotal,
+        timestamp,
+      };
 
-        const orderLogEntry: OrderLogEntry = {
-          orderId,
-          userEmail,
-          items: cartItems.map(item => ({
-            id: item.id,
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price
-          })),
-          totalAmount: cartTotal,
-          timestamp,
-        };
+      if (isSuccess) {
 
         // Log the order (in a real app, this would be sent to a backend database)
         var items = "";
@@ -47,16 +47,12 @@ export const processCheckout = (
       } else {
         // Simulate different potential error messages
         const errorMessages = [
-          "Payment processing failed. Please check your payment details and try again.",
-          "One or more items in your cart are out of stock.",
+          "Credit card service is down. Please try again later.",
           "Unable to connect to the payment gateway. Please try again later.",
           "An unexpected error occurred. Please contact support.",
         ];
         const randomErrorMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)];
-        console.error("--- CHECKOUT FAILED ---");
-        console.error("User:", userEmail);
-        console.error("Reason:", randomErrorMessage);
-        console.error("-----------------------");
+        console.error(`Checkout failed: User:${orderLogEntry.userEmail}, ID:${orderLogEntry.orderId}, Reason: ${randomErrorMessage}`);
         resolve({
           success: false,
           message: randomErrorMessage,
