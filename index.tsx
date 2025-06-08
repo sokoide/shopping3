@@ -4,7 +4,7 @@ import App from './App';
 import { setupTelemetry } from './src/setupTelemetry'; // setupTelemetry をインポート
 
 // アプリケーション初期化時に Telemetry をセットアップ
-setupTelemetry();
+await setupTelemetry();
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
