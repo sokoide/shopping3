@@ -10,20 +10,20 @@ export const processCheckout = (
     // Simulate network delay
     setTimeout(() => {
       // Simulate random success/failure (e.g., 80% success rate)
-      const isSuccess = Math.random() < 0.8; 
+      const isSuccess = Math.random() < 0.8;
 
       if (isSuccess) {
         const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
         const timestamp = new Date().toISOString();
-        
+
         const orderLogEntry: OrderLogEntry = {
           orderId,
           userEmail,
-          items: cartItems.map(item => ({ 
-            id: item.id, 
-            name: item.name, 
-            quantity: item.quantity, 
-            price: item.price 
+          items: cartItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
           })),
           totalAmount: cartTotal,
           timestamp,

@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { CartItem } from '../types';
 import Button from './Button';
-import ShoppingCartItem from './ShoppingCartItem'; // Re-use for item display
+import ShoppingCartItem from './ShoppingCartItem';
 import LoadingSpinner from './LoadingSpinner';
 
 interface CheckoutPageProps {
@@ -26,6 +25,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
   onUpdateQuantity,
   onRemoveFromCart,
 }) => {
+  const handleConfirmCheckout = async () => {
+    console.log('Proceed to checkout button clicked');
+    await onConfirmCheckout();
+  };
+
   if (cartItems.length === 0 && checkoutStatus !== 'success') {
     return (
       <div className="text-center py-10">
@@ -63,7 +67,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-md my-6 shadow-md" role="alert">
           <h3 className="text-xl font-semibold mb-2">Checkout Failed</h3>
           <p>{checkoutMessage}</p>
-          <Button onClick={onConfirmCheckout} variant="danger" className="mt-4 mr-2">
+          <Button onClick={handleConfirmCheckout} variant="danger" className="mt-4 mr-2">
             Try Again
           </Button>
           <Button onClick={onNavigateBack} variant="outline" className="mt-4">
@@ -102,7 +106,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                 Back to Shopping
               </Button>
               <Button
-                onClick={onConfirmCheckout}
+                onClick={handleConfirmCheckout}
                 variant="primary"
                 size="lg"
                 disabled={cartItems.length === 0}
