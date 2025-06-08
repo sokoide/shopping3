@@ -26,7 +26,6 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
   onRemoveFromCart,
 }) => {
   const handleConfirmCheckout = async () => {
-    console.log('Proceed to checkout button clicked');
     await onConfirmCheckout();
   };
 

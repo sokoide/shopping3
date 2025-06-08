@@ -7,7 +7,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ProductList from './components/ProductList';
 import ShoppingCart from './components/ShoppingCart';
-import GeminiAssistant from './components/GeminiAssistant';
 import LoginPage from './components/LoginPage';
 import CheckoutPage from './components/CheckoutPage';
 import { processCheckout } from './services/checkoutService';

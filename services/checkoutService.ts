@@ -30,16 +30,14 @@ export const processCheckout = (
         };
 
         // Log the order (in a real app, this would be sent to a backend database)
-        console.log("--- ORDER PLACED ---");
-        console.log("User:", orderLogEntry.userEmail);
-        console.log("Order ID:", orderLogEntry.orderId);
-        console.log("Timestamp:", orderLogEntry.timestamp);
-        console.log("Total Amount: $", orderLogEntry.totalAmount.toFixed(2));
-        console.log("Items:");
+        var items = "";
         orderLogEntry.items.forEach(item => {
-          console.log(`  - ${item.name} (ID: ${item.id}), Qty: ${item.quantity}, Price: $${item.price.toFixed(2)}`);
+          items += (`${item.name} (ID: ${item.id}), Qty: ${item.quantity}, Price: $${item.price.toFixed(2)},`);
         });
-        console.log("--------------------");
+        if (items.length > 0) {
+          items = items.slice(0, -1); // Remove the last ',' if present
+        }
+        console.log(`Order placed. User:${orderLogEntry.userEmail}, ID:${orderLogEntry.orderId}, Timestamp:${orderLogEntry.timestamp}, Items:${orderLogEntry.totalAmount.toFixed(2)}, ${items}`);
 
         resolve({
           success: true,

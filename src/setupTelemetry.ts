@@ -35,9 +35,9 @@ export async function setupTelemetry() {
     const logger = loggerProvider.getLogger('sokoide-logger');
 
 
-    const originalConsoleLog = console.log;      // 保存しておく
-    const originalConsoleWarn = console.warn;    // 保存しておく
-    const originalConsoleError = console.error;  // 保存しておく
+    const originalConsoleLog = console.log;      // save
+    const originalConsoleWarn = console.warn;    // save
+    const originalConsoleError = console.error;  // save
 
     const sendLogToOTLP = (severity: string, ...args: any[]) => {
         const logMessage = args
@@ -50,27 +50,6 @@ export async function setupTelemetry() {
                 body: logMessage,
                 severityText: severity,
             });
-            originalConsoleLog("logger.emit %o", logMessage);
-
-            // traceExporter.export(
-            //     [
-            //         {
-            //             body: logMessage,
-            //             attributes: {
-            //                 "service.name": "sokoide-shopping",
-            //                 "severity.text": severity,
-            //             },
-            //         },
-            //     ],
-            //     {
-            //         onSuccess: () => {
-            //             originalConsoleLog("Log successfully sent to OTLP."); // Use the original console log
-            //         },
-            //         onError: error => {
-            //             originalConsoleLog("Failed to send log to OTLP:", error); // Use the original console log
-            //         },
-            //     }
-            // );
         } catch (e) {
             originalConsoleError("Error exporting log:", e); // Use the original console error
         }
