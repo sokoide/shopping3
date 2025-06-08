@@ -1,0 +1,5 @@
+{
+  "name": "sokoide.com Shopping Companion",
+  "description": "A modern React and Tailwind CSS shopping cart application that helps you manage your groceries and offers intelligent shopping suggestions.",
+  "requestFramePermissions": []
+}
