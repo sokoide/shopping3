@@ -1,8 +1,12 @@
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
+import { WebTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-web';
 import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
 import { resourceFromAttributes } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
+import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
+import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 
@@ -21,8 +25,17 @@ export async function setupTelemetry() {
     // traces
     const traceProvider = new WebTracerProvider({
         resource,
+        spanProcessors: [new SimpleSpanProcessor(traceExporter)],
     });
     traceProvider.register();
+
+    registerInstrumentations({
+        instrumentations: [
+            new FetchInstrumentation(),
+            new XMLHttpRequestInstrumentation(),
+            new UserInteractionInstrumentation(),
+        ],
+    });
 
     // logs
     const logExporter = new OTLPLogExporter({
